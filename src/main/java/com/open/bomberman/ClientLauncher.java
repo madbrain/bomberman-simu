@@ -80,7 +80,6 @@ public class ClientLauncher {
 							for (int x = 0; x < GameMap.WIDTH; ++x) {
 								gameMap.set(x, y, GameTile.fromCode(elements[x]));
 							}
-							writer.println();
 						}
 						int playerCount = Integer.valueOf(reader.readLine());
 						for (int i = 0; i < playerCount; ++i) {

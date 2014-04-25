@@ -118,10 +118,17 @@ public class GameEngine {
 				writer.println();
 			}
 			writer.println(players.size());
+			sendPlayer(player);
 			for (PlayerRunnable p : players) {
-				Point position = p.player.getPosition();
-				writer.println(position.x + " " + position.y + " " + (p.player.isBeingKilled() ? "KILLED" : "ALIVE"));
+				if (player != p.player) {
+					sendPlayer(p.player);
+				}
 			}
+		}
+
+		private void sendPlayer(Player player) {
+			Point position = player.getPosition();
+			writer.println(position.x + " " + position.y + " " + (player.isBeingKilled() ? "KILLED" : "ALIVE"));
 		}
 
 		@Override
