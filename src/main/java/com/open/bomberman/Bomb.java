@@ -50,7 +50,7 @@ public class Bomb implements DrawableObject, Burnable {
 		
 		private void createFireSprites(ServerGameMap gameMap) {
 			sprites.clear();
-			gameMap.set(x, y, GameTile.EMPTY);
+			gameMap.set(x, y, GameTile.FIRE);
 			
 			boolean stopUp    = false;
 			boolean stopDown  = false;
@@ -71,7 +71,7 @@ public class Bomb implements DrawableObject, Burnable {
 		
 		private boolean addSprite(ServerGameMap gameMap, int x, int y, Sprite sprite, boolean doStop) {
 			GameTile tile = gameMap.get(x, y);
-			if (tile == GameTile.EMPTY && doStop == false) {
+			if ((tile == GameTile.EMPTY || tile == GameTile.FIRE) && doStop == false) {
 				sprite.setLocation(ServerGameMap.getPoint(x, y));
 				sprites.add(sprite);
 				fireTiles.add(new Point(x, y));
