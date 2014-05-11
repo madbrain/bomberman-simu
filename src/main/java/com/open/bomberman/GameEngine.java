@@ -43,13 +43,13 @@ public class GameEngine {
 					}
 
 					gameMap.stepObjects();
+					
+					for (PlayerRunnable player : players) {
+						player.sendScreen();
+					}
 
 					for (GameEngineListener listener : listeners) {
 						listener.repaint();
-					}
-
-					for (PlayerRunnable player : players) {
-						player.sendScreen();
 					}
 
 				}
@@ -124,6 +124,7 @@ public class GameEngine {
 					sendPlayer(p.player);
 				}
 			}
+			writer.flush();
 		}
 
 		private void sendPlayer(Player player) {
@@ -136,6 +137,9 @@ public class GameEngine {
 			try {
 				while (running) {
 					String line = reader.readLine();
+					if (line == null) {
+						break;
+					}
 					String[] commands = line.split(" ");
 					if (commands.length > 0 && commands[0].length() > 0) {
 						if (commands[0].equals("NOP")) {
@@ -149,7 +153,7 @@ public class GameEngine {
 					}
 				}
 			} catch (IOException e) {
-				LOG.log(Level.SEVERE, "Erreur à l'ouverture de la socket", e);
+				LOG.log(Level.SEVERE, "Erreur lors de la lecture de la socket", e);
 			}
 			players.remove(this);
 			gameMap.removePlayer(player);

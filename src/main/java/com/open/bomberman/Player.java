@@ -26,10 +26,11 @@ public class Player extends Sprite implements PlayerControl {
 	private Direction newDirection = null;
 	private Direction direction = null;
 
+	private int index;
+	private String name;
 	private PlayerAnimationProvider animationProvider;
 	private final Animation idleAnimation;
 	private ServerGameMap gameMap;
-	private String name;
 	private List<Bonus> bonuses = new ArrayList<Bonus>();
 	private List<Bomb> pendingBombs = new ArrayList<Bomb>();
 
@@ -39,13 +40,26 @@ public class Player extends Sprite implements PlayerControl {
 	private boolean isBeingKilled = false;
 	private int time = 0;
 
-	public Player(String name, PlayerAnimationProvider animationProvider, Point position, ServerGameMap gameMap) {
+	public Player(int index, String name, PlayerAnimationProvider animationProvider, Point position, ServerGameMap gameMap) {
 		super(null, position);
+		this.index = index;
 		this.name = name;
 		this.animationProvider = animationProvider;
 		this.idleAnimation = animationProvider.getIdleAnimation();
 		this.gameMap = gameMap;
 		setSpeed(3);
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public Point getPosition() {
+		return position;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -61,14 +75,6 @@ public class Player extends Sprite implements PlayerControl {
 				this.pendingBombs.add(bomb);
 			}
 		}
-	}
-
-	public Point getPosition() {
-		return position;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override
@@ -228,7 +234,6 @@ public class Player extends Sprite implements PlayerControl {
 		isBeingKilled = true;
 		setSpeed(3);
 		setAnimation(animationProvider.getKillAnimation());
-		// XXX disable user control
 	}
 
 	public void removeBomb(Bomb bomb) {

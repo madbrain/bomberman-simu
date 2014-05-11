@@ -77,7 +77,7 @@ public class ClientGameMap extends GameMap {
 	}
 
 	public void setPlayerInfo(int index, Point position, boolean isAlive) {
-		PlayerSprite player = players.get(position);
+		PlayerSprite player = players.get(index);
 		if (player == null) {
 			Animation animation = animationProvider.getPlayer(index).get(Direction.DOWN);
 			players.put(index, player = new PlayerSprite(Sprite.withAnimation(animation).speed(0).build()));

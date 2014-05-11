@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.ImageObserver;
 
-class Sprite implements DrawableObject {
+public class Sprite implements DrawableObject {
 	
 	private int index = 0;
 	private int time = 0;

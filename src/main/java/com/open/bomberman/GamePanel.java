@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -89,7 +90,7 @@ public class GamePanel extends JPanel implements GameEngineListener {
 		int CELL_WIDTH = 48;
 		int CELL_HEIGHT = 48;
 		int gap = 10;
-		for (Player player : gameMap.getPlayers()) {
+		for (Player player : new ArrayList<Player>(gameMap.getPlayers())) {
 			g2d.drawRoundRect(x - 4, y - 4, CELL_WIDTH + 4 * 2, CELL_HEIGHT + 4 * 2, 8, 8);
 
 			Animation animation = player.getAnimationProvider().getIdleAnimation();

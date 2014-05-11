@@ -5,8 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class ServerGameMap extends GameMap {
 
@@ -188,28 +190,43 @@ public class ServerGameMap extends GameMap {
 	}
 
 	public synchronized Player createPlayer(String name) {
+		int index = findFreeIndex();
 		Point position = null;
-		if (players.size() == 0) {
+		if (index == 0) {
 			position = new Point(8, 8);
-		} else if (players.size() == 1) {
+		} else if (index == 1) {
 			position = new Point(8 + TILE_WIDTH * (WIDTH - 1), 8 + TILE_HEIGHT * (HEIGHT - 1));
-		} else if (players.size() == 2) {
+		} else if (index == 2) {
 			position = new Point(8, 8 + TILE_HEIGHT * (HEIGHT - 1));
-		} else if (players.size() == 3) {
+		} else if (index == 3) {
 			position = new Point(8 + TILE_WIDTH * (WIDTH - 1), 8);
 		} else {
 			throw new IllegalStateException("too much players");
 		}
-		Player player = new Player(name,
-				new PlayerAnimationProviderImpl(animationProvider, players.size()), position, this);
+		Player player = new Player(index, name,
+				new PlayerAnimationProviderImpl(animationProvider, index), position, this);
 		addPlayer(player);
 		return player;
+	}
+
+	private int findFreeIndex() {
+		Set<Integer> indexes = new HashSet<Integer>();
+		for (Player player : players) {
+			indexes.add(player.getIndex());
+		}
+		for (int i = 0; i < 4; ++i) {
+			if (! indexes.contains(i)) {
+				return i;
+			}
+		}
+		throw new IllegalStateException("maximum number of player reached");
 	}
 
 	public void removePlayer(Player player) {
 		this.players.remove(player);
 	}
 
+	@Override
 	public List<Player> getPlayers() {
 		return players;
 	}

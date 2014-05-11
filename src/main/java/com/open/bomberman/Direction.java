@@ -1,6 +1,6 @@
 package com.open.bomberman;
 
-enum Direction {
+public enum Direction {
 	UP,
 	DOWN,
 	LEFT,
