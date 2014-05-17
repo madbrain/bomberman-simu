@@ -15,8 +15,8 @@ public class Player extends Sprite implements PlayerControl {
 	private static final int START_FIRE_POWER = 2;
 	private static final int MAX_FIRE_COUNT = 6;
 
-	private static final int START_ROLLER_COUNT = 1;
-	private static final int MAX_ROLLER_COUNT = 3;
+	private static final int START_ROLLER_COUNT = 2;
+	private static final int MAX_ROLLER_COUNT = 4;
 
 	private static final EnumSet<GameTile> BONUS_TILES = EnumSet.<GameTile> of(
 			GameTile.BONUS_BOMB,
@@ -88,7 +88,7 @@ public class Player extends Sprite implements PlayerControl {
 		} else {
 			if (animation != null && direction != null) {
 				Point newPosition = new Point(position);
-				int speed = 1 + rollerCount;
+				int speed = rollerCount;
 				switch (direction) {
 				case UP:
 					newPosition.translate(0, -speed);
@@ -132,18 +132,28 @@ public class Player extends Sprite implements PlayerControl {
 	}
 
 	private void alignVerticaly(Point newPosition) {
-		int column = position.x / ServerGameMap.TILE_WIDTH;
+		int column = newPosition.x / ServerGameMap.TILE_WIDTH;
 		if (column % 2 == 0) {
-			int nx = column * ServerGameMap.TILE_WIDTH + ServerGameMap.TILE_WIDTH / 2;
+			int nx = (2 * column + 1) * ServerGameMap.TILE_WIDTH / 2;
 			newPosition.setLocation(nx, newPosition.y);
+		}
+		int line = newPosition.y / ServerGameMap.TILE_HEIGHT;
+		int ny = (2 * line + 1) * ServerGameMap.TILE_HEIGHT / 2;
+		if (Math.abs(ny - newPosition.y) == 1) {
+			newPosition.setLocation(newPosition.x, ny);
 		}
 	}
 
 	private void alignHorizontaly(Point newPosition) {
-		int line = position.y / ServerGameMap.TILE_HEIGHT;
+		int line = newPosition.y / ServerGameMap.TILE_HEIGHT;
 		if (line % 2 == 0) {
-			int ny = line * ServerGameMap.TILE_HEIGHT + ServerGameMap.TILE_HEIGHT / 2;
+			int ny = (2 * line + 1) * ServerGameMap.TILE_HEIGHT / 2;
 			newPosition.setLocation(newPosition.x, ny);
+		}
+		int column = newPosition.x / ServerGameMap.TILE_WIDTH;
+		int nx = (2 * column + 1) * ServerGameMap.TILE_WIDTH / 2;
+		if (Math.abs(nx - newPosition.x) == 1) {
+			newPosition.setLocation(nx, newPosition.y);
 		}
 	}
 

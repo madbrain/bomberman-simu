@@ -23,8 +23,11 @@ public class ServerGameMap extends GameMap {
 
 	public ServerGameMap(AnimationProvider animationProvider) {
 		this.animationProvider = animationProvider;
+		initializeMap();
+	}
+	
+	private void initializeMap() {
 		Random random = new Random();
-
 		for (int y = 0; y < tiles.length; ++y) {
 			for (int x = 0; x < tiles[y].length; ++x) {
 				tiles[y][x] = x % 2 == 1 && y % 2 == 1 ? GameTile.BLOCK : GameTile.EMPTY;
